@@ -4,17 +4,10 @@ const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 require('dotenv').config();
-const mime = require('mime-types')
+const mime = require('mime-types');
+const bodyParser = require('body-parser');
 
 const app = express();
-
-//tamaño
-fs.statSync('package.json').size;
-//nombre+extension
-path.basename('package.json');
-
-//mim-type
-mime.lookup('package.json')
 
 app.use(cors());
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -24,7 +17,23 @@ app.get('/', function (req, res) {
 });
 
 
+const diskStorage= multer.diskStorage({
+  destination: (req,file,cb)=>{
+    cb(null,'images')
+  },
+  filename : (req,file,cb)=>{
+    cb(null,file.originalname)
+  }
+})
 
+app.post('/api/fileanalyse',multer({storage : diskStorage}).single('upfile'),(req,res,next)=>{
+
+  res.json({
+    name:req.file.originalname,
+    type: req.file.mimetype,
+    size: req.file.size
+  })
+})
 
 const port = process.env.PORT || 3000;
 app.listen(port, function () {
