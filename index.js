@@ -29,9 +29,9 @@ const diskStorage= multer.diskStorage({
 app.post('/api/fileanalyse',multer({storage : diskStorage}).single('upfile'),(req,res,next)=>{
 
   res.json({
-    name:req.file.originalname,
-    type: req.file.mimetype,
-    size: req.file.size
+    "name":req.file.originalname,
+    "type": req.file.mimetype,
+    "size": req.file.size
   })
 })
 
