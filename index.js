@@ -19,7 +19,7 @@ app.get('/', function (req, res) {
 
 const diskStorage= multer.diskStorage({
   destination: (req,file,cb)=>{
-    cb(null,__dirname + '/images')
+    cb(null,'images')
   },
   filename : (req,file,cb)=>{
     cb(null,file.originalname)
